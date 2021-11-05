@@ -3,6 +3,7 @@ import IEpisode from "./IEpisode";
 import episodes from "../episodes.json";
 import { numberCorrector } from "../utils/numberCorrector";
 import { htmlTagRemover } from "../utils/htmlTagRemover";
+import { showMySearch } from "../utils/showMySearch";
 
 export function MainContent(): JSX.Element {
   const [mySearch, setMySearch] = useState<string>("");
@@ -40,42 +41,6 @@ export function MainContent(): JSX.Element {
       </section>
     );
   };
-  // Function: showMySearch
-  // Parameter: EPISODES - an array of all episodes
-  // Return: EPISODE_ARRAY - an array of episodes filtered by MY_SEARCH
-  const showMySearch = (
-    episodes: IEpisode[],
-    mySearch: string,
-    mySelected: string
-  ): IEpisode[] => {
-    const episodeArr = [];
-    if (mySelected === "") {
-      // Nothing selected fromt he drop-down list
-      if (mySearch === "") {
-        // Empty search bar
-        return episodes;
-      } else {
-        // Search bar used
-        for (const episode of episodes) {
-          if (episode.name.toLowerCase().includes(mySearch.toLowerCase())) {
-            episodeArr.push(episode);
-          } else if (
-            episode.summary.toLowerCase().includes(mySearch.toLowerCase())
-          ) {
-            episodeArr.push(episode);
-          }
-        }
-        return episodeArr;
-      }
-    } else {
-      // An episode is selected from the drop-down list
-      const indexToShow: number = episodes.findIndex(
-        (episode) => episode.name === mySelected
-      );
-      episodeArr.push(episodes[indexToShow]);
-      return episodeArr;
-    }
-  };
   const EpisodeList = (): JSX.Element => {
     return (
       <>
@@ -98,7 +63,7 @@ export function MainContent(): JSX.Element {
     );
   };
   const handleSelection = (e: React.ChangeEvent<HTMLSelectElement>): void => {
-    setMySearch("");
+    setMySearch(""); // When the drop-down is used, set mySearch to an empty string
     if (e.target.value === "Choose from a drop-down list") {
       setMySelected("");
       setEpisodeToShow(episodes);
