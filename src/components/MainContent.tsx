@@ -17,7 +17,9 @@ export function MainContent(): JSX.Element {
           placeholder="Search"
           onChange={(e) => {
             setMySearch(e.target.value);
-            setEpisodeToShow(showMySearch(episodes, e.target.value, mySelected));
+            setEpisodeToShow(
+              showMySearch(episodes, e.target.value, mySelected)
+            );
           }}
         />
         <p>
@@ -47,10 +49,13 @@ export function MainContent(): JSX.Element {
     mySelected: string
   ): IEpisode[] => {
     const episodeArr = [];
-    if (mySelected === "") { // Nothing selected fromt he drop-down list
-      if (mySearch === "") { // Empty search bar
+    if (mySelected === "") {
+      // Nothing selected fromt he drop-down list
+      if (mySearch === "") {
+        // Empty search bar
         return episodes;
-      } else {               // Search bar used
+      } else {
+        // Search bar used
         for (const episode of episodes) {
           if (episode.name.toLowerCase().includes(mySearch.toLowerCase())) {
             episodeArr.push(episode);
@@ -62,7 +67,8 @@ export function MainContent(): JSX.Element {
         }
         return episodeArr;
       }
-    } else { // An episode is selected from the drop-down list
+    } else {
+      // An episode is selected from the drop-down list
       const indexToShow: number = episodes.findIndex(
         (episode) => episode.name === mySelected
       );
@@ -91,7 +97,7 @@ export function MainContent(): JSX.Element {
       </option>
     );
   };
-  const handleSelection = (e: React.ChangeEvent<HTMLSelectElement>): void => {    
+  const handleSelection = (e: React.ChangeEvent<HTMLSelectElement>): void => {
     setMySearch("");
     if (e.target.value === "Choose from a drop-down list") {
       setMySelected("");
@@ -99,8 +105,8 @@ export function MainContent(): JSX.Element {
     } else {
       setMySelected(e.target.value);
       setEpisodeToShow(showMySearch(episodes, "", e.target.value));
-    } 
-  }
+    }
+  };
   const DropDownList = (): JSX.Element => {
     return (
       <>
