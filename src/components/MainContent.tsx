@@ -1,11 +1,21 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import IEpisode from "./IEpisode";
-import episodes from "../episodes.json";
 import { numberCorrector } from "../utils/numberCorrector";
 import { htmlTagRemover } from "../utils/htmlTagRemover";
 import { showMySearch } from "../utils/showMySearch";
 
 export function MainContent(): JSX.Element {
+  // Fetching data from API
+  const [episodes, setEpisodes] = useState<IEpisode[]>([]);
+  useEffect(() => {
+    const fetchEpisodes = async () => {
+      const response = await fetch("https://api.tvmaze.com/shows/22036/episodes");
+      const jsonBody: IEpisode[] = await response.json();
+      setEpisodes(jsonBody);
+    }
+    fetchEpisodes();
+  }, []);
+
   const [mySearch, setMySearch] = useState<string>("");
   const [mySelected, setMySelected] = useState<string>("");
   const [episodeToShow, setEpisodeToShow] = useState<IEpisode[]>(episodes);
@@ -36,7 +46,7 @@ export function MainContent(): JSX.Element {
           {props.name} - S{numberCorrector(props.season)}E
           {numberCorrector(props.number)}
         </h2>
-        <img src={props.image.medium} alt="" />
+        {props.image !== null && <img src={props.image.medium} alt="" />}
         <p>{htmlTagRemover(props.summary)}</p>
       </section>
     );
