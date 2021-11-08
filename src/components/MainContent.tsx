@@ -9,10 +9,12 @@ export function MainContent(): JSX.Element {
   const [episodes, setEpisodes] = useState<IEpisode[]>([]);
   useEffect(() => {
     const fetchEpisodes = async () => {
-      const response = await fetch("https://api.tvmaze.com/shows/22036/episodes");
+      const response = await fetch(
+        "https://api.tvmaze.com/shows/22036/episodes"
+      );
       const jsonBody: IEpisode[] = await response.json();
       setEpisodes(jsonBody);
-    }
+    };
     fetchEpisodes();
   }, []);
 
