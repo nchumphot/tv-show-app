@@ -5,8 +5,11 @@ import { htmlTagRemover } from "../utils/htmlTagRemover";
 import { showMySearch } from "../utils/showMySearch";
 
 export function MainContent(): JSX.Element {
-  // Fetching data from API
   const [episodes, setEpisodes] = useState<IEpisode[]>([]);
+  const [mySearch, setMySearch] = useState<string>("");
+  const [mySelected, setMySelected] = useState<string>("");
+  const [episodeToShow, setEpisodeToShow] = useState<IEpisode[]>(episodes);
+  // Fetching data from API
   useEffect(() => {
     const fetchEpisodes = async () => {
       const response = await fetch(
@@ -14,13 +17,11 @@ export function MainContent(): JSX.Element {
       );
       const jsonBody: IEpisode[] = await response.json();
       setEpisodes(jsonBody);
+      setEpisodeToShow(jsonBody);
     };
     fetchEpisodes();
   }, []);
 
-  const [mySearch, setMySearch] = useState<string>("");
-  const [mySelected, setMySelected] = useState<string>("");
-  const [episodeToShow, setEpisodeToShow] = useState<IEpisode[]>(episodes);
   const SearchBar = (): JSX.Element => {
     return (
       <>
@@ -115,7 +116,9 @@ export function MainContent(): JSX.Element {
       <br></br>
       <br></br>
       <SearchBar />
-      <EpisodeList />
+      <div className="grid-container">
+        <EpisodeList />
+      </div>
     </>
   );
 }
