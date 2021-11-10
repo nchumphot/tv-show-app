@@ -119,6 +119,7 @@ export function MainContent(): JSX.Element {
           onClick={() => {
             setMySearch("");
             setMySelected("");
+            setEpisodesToShow(episodes);
           }}
         >
           See all episodes
