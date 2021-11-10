@@ -10,5 +10,3 @@ export function htmlTagRemover(str: string): string {
   }
   return resultString;
 }
-
-// console.log(htmlTagRemover("<p>hello world!</p>"));
